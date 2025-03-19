@@ -19,6 +19,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     const nycNeighborhoodResponse = await fetch('nyc_neighborhoods.geojson');
     const nycNeighborhoodData = await nycNeighborhoodResponse.json();
 
+    // ✅ Load NOLA neighborhoods GeoJSON
+    const nolaNeighborhoodResponse = await fetch('nola_neighborhoods.geojson');
+    const nolaNeighborhoodData = await nolaNeighborhoodResponse.json();
+
     // ✅ Create layer groups for boroughs
     const londonLayer = L.geoJSON(londonBoroughData, {
         style: {
@@ -31,6 +35,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     const nycLayer = L.geoJSON(nycNeighborhoodData, {
         style: {
             color: 'purple',
+            weight: 1,
+            opacity: 0.5
+        }
+    }).addTo(map);
+
+    const NOLA_Layer = L.geoJSON(nolaNeighborhoodData, {
+        style: {
+            color: 'green',
             weight: 1,
             opacity: 0.5
         }
@@ -88,7 +100,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         "London Boroughs": londonLayer,
         "NYC Neighborhoods": nycLayer,
         "Tokyo Neighborhoods": tokyoLayer,
-        "Rome Neighborhoods": romeLayer
+        "Rome Neighborhoods": romeLayer,
+        "NOLA Neighborhoods": nolaLayer
     };
 
     routes.forEach((route, index) => {
