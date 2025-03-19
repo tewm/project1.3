@@ -1,26 +1,27 @@
-/* Ensure the map is visible */
+#map-container {
+    display: flex;
+    height: 100vh;
+}
+
 #map {
-    height: 600px; 
+    flex: 3;
+    height: 100%;
+}
+
+#sidebar {
+    flex: 1;
+    padding: 20px;
+    background: #f4f4f4;
+    overflow-y: auto;
+    border-left: 2px solid #ccc;
+}
+
+#landmark-info img {
     width: 100%;
-    border: 2px solid black; /* Just to check if it's working */
-}
-
-#tour-list {
-    list-style: none;
-    padding: 10px;
-    font-family: Arial, sans-serif;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    height: auto;
     border-radius: 8px;
-    max-height: 300px; /* Make sure it doesn't overflow */
-    overflow-y: auto; /* Allow scrolling */
-    width: 250px; /* Set a width for the list */
 }
 
-/* Optional: Customize popups */
-.leaflet-popup-content {
-    font-size: 14px;
-    color: darkblue;
+h2 {
+    margin-top: 0;
 }

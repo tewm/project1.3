@@ -1,61 +1,115 @@
-document.addEventListener("DOMContentLoaded", async function() {
-        // Function to fetch walking routes
-async function getWalkingRoutes() {
-    try {
-        const response = await fetch('/routes');  // Fetch from the server
-        const routes = await response.json();
-        return routes;
-    } catch (error) {
-        console.error('Error fetching walking routes:', error);
-        return [];
-    }
-}
-
-// Initialize the map
 document.addEventListener("DOMContentLoaded", async function () {
-    var map = L.map('map').setView([51.5074, -0.1278], 13);  // London center
+    // Initialize the map with a view over both London, NYC, Tokyo
+    const map = L.map('map').setView([51.5074, -0.1278], 5); // Zoomed out to show both cities
 
     // Add OpenStreetMap basemap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Layer groups for the walking routes
-    var route1Layer = L.layerGroup();
-    var route2Layer = L.layerGroup();
-    var route3Layer = L.layerGroup();
+    // ✅ Fetch routes from the server
+    const response = await fetch('/routes');
+    const routes = await response.json();
 
-    // Fetch and display the routes
-    const routes = await getWalkingRoutes();
-    
-    if (routes.length === 3) {
-        // Add Route 1
-        L.geoJSON(routes[0], {
-            style: { color: 'blue', weight: 4 }
-        }).addTo(route1Layer);
+    // ✅ Load London boroughs GeoJSON
+    const londonBoroughResponse = await fetch('boroughs.geojson');
+    const londonBoroughData = await londonBoroughResponse.json();
 
-        // Add Route 2
-        L.geoJSON(routes[1], {
-            style: { color: 'green', weight: 4 }
-        }).addTo(route2Layer);
+    // ✅ Load NYC neighborhoods GeoJSON
+    const nycNeighborhoodResponse = await fetch('nyc_neighborhoods.geojson');
+    const nycNeighborhoodData = await nycNeighborhoodResponse.json();
 
-        // Add Route 3
-        L.geoJSON(routes[2], {
-            style: { color: 'red', weight: 4 }
-        }).addTo(route3Layer);
-    }
+    // ✅ Create layer groups for boroughs
+    const londonLayer = L.geoJSON(londonBoroughData, {
+        style: {
+            color: 'gray',
+            weight: 1,
+            opacity: 0.5
+        }
+    }).addTo(map);
 
-    // Add layers to the map
-    route1Layer.addTo(map);
-    route2Layer.addTo(map);
-    route3Layer.addTo(map);
+    const nycLayer = L.geoJSON(nycNeighborhoodData, {
+        style: {
+            color: 'purple',
+            weight: 1,
+            opacity: 0.5
+        }
+    }).addTo(map);
 
-    // Layer control to toggle the routes
-    var overlayMaps = {
-        "Route 1: Big Ben → Tower of London": route1Layer,
-        "Route 2: Buckingham Palace → Hyde Park": route2Layer,
-        "Route 3: London Eye → British Museum": route3Layer
+    // ✅ Create layer groups for each route
+    const routeLayers = [];
+    routes.forEach(route => {
+        const routeLayer = L.geoJSON(route.route, {
+            style: {
+                color: 'blue',
+                weight: 4
+            }
+        }).addTo(map);
+
+        // ✅ Add POIs with popups
+        route.pois.forEach(poi => {
+            const poiMarker = L.marker(poi.coords, {
+                icon: L.divIcon({
+                    className: 'custom-icon',
+                    html: poi.icon
+                })
+            });
+
+            // Check if the POI is in London or NYC and find its borough/neighborhood
+            const borough = getBoroughForLandmark(poi.coords, londonBoroughData) ||
+                            getBoroughForLandmark(poi.coords, nycNeighborhoodData) || "Unknown";
+
+            // ✅ Popup with images and borough/neighborhood name
+            poiMarker.bindPopup(`
+                <b>${poi.name}</b><br>
+                <img src="${poi.img}" width="150"><br>
+                ${poi.description}<br>
+                <b>Borough/Neighborhood:</b> ${borough}
+            `).addTo(map);
+
+            // ✅ Update the sidebar on click
+            poiMarker.on('click', () => {
+                const sidebar = document.getElementById('landmark-info');
+                sidebar.innerHTML = `
+                    <h3>${poi.name}</h3>
+                    <img src="${poi.img}" alt="${poi.name}" width="200">
+                    <p>${poi.description}</p>
+                    <p><strong>Borough/Neighborhood:</strong> ${borough}</p>
+                    <p><strong>Distance:</strong> ${route.distanceMiles} miles</p>
+                `;
+            });
+        });
+
+        routeLayers.push(routeLayer);
+    });
+
+    // ✅ Toggleable layers for London and NYC
+    const overlayMaps = {
+        "London Boroughs": londonLayer,
+        "NYC Neighborhoods": nycLayer,
+        "Tokyo Neighborhoods": tokyoLayer,
+        "Rome Neighborhoods": romeLayer
     };
+
+    routes.forEach((route, index) => {
+        overlayMaps[route.name] = routeLayers[index];
+    });
 
     L.control.layers(null, overlayMaps, { collapsed: false }).addTo(map);
 });
+
+// ✅ Function to determine which borough/neighborhood a POI is in
+function getBoroughForLandmark(coords, geojsonData) {
+    const latLng = L.latLng(coords[0], coords[1]);
+
+    for (const feature of geojsonData.features) {
+        const borough = feature.properties.name || feature.properties.neighborhood;
+        const boroughPolygon = L.geoJSON(feature.geometry);
+
+        if (boroughPolygon.getBounds().contains(latLng)) {
+            return borough;
+        }
+    }
+
+    return null;  // If no match is found
+}
