@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const londonBoroughData = await londonBoroughResponse.json();
 
     // ✅ Load NYC neighborhoods GeoJSON
-    const nycNeighborhoodResponse = await fetch('nyc_neighborhoods.geojson');
+    const nycNeighborhoodResponse = await fetch('nyc_zipcode.json');
     const nycNeighborhoodData = await nycNeighborhoodResponse.json();
 
     // ✅ Load NOLA neighborhoods GeoJSON
