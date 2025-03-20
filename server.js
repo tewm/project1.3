@@ -36,19 +36,31 @@ const routePOIs = [
         { name: "SoHo", coords: [40.7233, -74.0020], icon: "🛍️", img: "https://upload.wikimedia.org/wikipedia/commons/7/7f/SoHo_NYC_street.jpg", description: "Famous district known for shopping and art." },
         { name: "One World Trade Center", coords: [40.7127, -74.0134], icon: "🏢", img: "https://upload.wikimedia.org/wikipedia/commons/5/5e/One_World_Trade_Center_%28cropped%29.jpg", description: "Tallest building in the Western Hemisphere." },
         { name: "Statue of Liberty Viewpoint", coords: [40.6892, -74.0445], icon: "🗽", img: "https://upload.wikimedia.org/wikipedia/commons/a/a1/Statue_of_Liberty_7.jpg", description: "Iconic statue symbolizing freedom and democracy." }
-    ]
+    ],
     // Tokyo Routes
     [
         { name: "Tokyo Tower", coords: [35.6895, 139.6917], icon: "🗼", img: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Tokyo_Tower_and_Skyline.jpg", description: "Iconic landmark offering panoramic city views." },
         { name: "Zojoji Temple", coords: [35.6586, 139.7454], icon: "⛩️", img: "https://upload.wikimedia.org/wikipedia/commons/6/6b/Zojoji_Temple_and_Tokyo_Tower.jpg", description: "Historic Buddhist temple near Tokyo Tower." },
         { name: "Senso-ji Temple", coords: [35.7101, 139.8107], icon: "🏯", img: "https://upload.wikimedia.org/wikipedia/commons/7/72/Sensoji_Temple.jpg", description: "Famous ancient temple with a vibrant shopping street." }
-    ]
+    ],
     // Rome Routes
     [
         { name: "Colosseum", coords: [41.8902, 12.4922], icon: "🏛️", img: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg", description: "Ancient Roman amphitheater." },
-            { name: "Roman Forum", coords: [41.8925, 12.4853], icon: "🏺", img: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Roman_Forum_view.jpg", description: "Historic center of ancient Rome." },
-            { name: "Trevi Fountain", coords: [41.9009, 12.4833], icon: "⛲", img: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Trevi_Fountain_-_Rome.jpg", description: "Famous Baroque fountain." },
-            { name: "Pantheon", coords: [41.8986, 12.4769], icon: "🏛️", img: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Pantheon_in_Rome.jpg", description: "Ancient Roman temple turned church." }
+        { name: "Roman Forum", coords: [41.8925, 12.4853], icon: "🏺", img: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Roman_Forum_view.jpg", description: "Historic center of ancient Rome." },
+        { name: "Trevi Fountain", coords: [41.9009, 12.4833], icon: "⛲", img: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Trevi_Fountain_-_Rome.jpg", description: "Famous Baroque fountain." },
+        { name: "Pantheon", coords: [41.8986, 12.4769], icon: "🏛️", img: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Pantheon_in_Rome.jpg", description: "Ancient Roman temple turned church." }
+    ],
+    // NOLA Routes
+    [
+        { name: "Jackson Square", coords: [-90.0644, 29.9574], icon: "🏰", img: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Jackson_Square_New_Orleans.jpg", description: "Historic park in the French Quarter." },
+        { name: "St. Louis Cathedral", coords: [-90.0650, 29.9578], icon: "⛪", img: "https://upload.wikimedia.org/wikipedia/commons/6/6b/St_Louis_Cathedral_New_Orleans.jpg", description: "Iconic Catholic cathedral in NOLA." },
+        { name: "Audubon Aquarium", coords: [-90.0611, 29.9515], icon: "🐠", img: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Audubon_Aquarium_of_the_Americas.jpg", description: "Aquarium showcasing marine life." },
+        { name: "French Market", coords: [-90.0635, 29.9576], icon: "🏬", img: "https://upload.wikimedia.org/wikipedia/commons/5/5b/French_Market_New_Orleans.jpg", description: "Historic market in the French Quarter." }
+    ],
+    [
+        { name: "Bourbon Street", coords: [-90.0715, 29.9583], icon: "🎉", img: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Bourbon_Street_New_Orleans.jpg", description: "Famous street known for nightlife and festivals." },
+        { name: "New Orleans Historic Voodoo Museum", coords: [-90.0705, 29.9573], icon: "🔮", img: "https://upload.wikimedia.org/wikipedia/commons/6/6e/New_Orleans_Historic_Voodoo_Museum.jpg", description: "Museum exploring the history of voodoo." },
+        { name: "Louis Armstrong Park", coords: [-90.0720, 29.9614], icon: "🎺", img: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Louis_Armstrong_Park_New_Orleans.jpg", description: "Park honoring jazz legend Louis Armstrong." }
     ]
 ];
 
@@ -81,20 +93,33 @@ const coordinates = [
         [40.7233, -74.0020],
         [40.7127, -74.0134],
         [40.6892, -74.0445]
-    ]
+    ],
     // Tokyo Routes
     [
         [35.6895, 139.6917],  // Tokyo Tower
         [35.6586, 139.7454],  // Zojoji Temple
         [35.7101, 139.8107]   // Senso-ji Temple
-    ]
+    ],
     // Rome Routes
     [
         [41.8902, 12.4922],  // Colosseum
         [41.8925, 12.4853],  // Roman Forum
         [41.9009, 12.4833],  // Trevi Fountain
         [41.8986, 12.4769]   // Pantheon
+    ],
+    // NOLA Routes
+    [
+        [-90.0644, 29.9574],  // Jackson Square
+        [-90.0650, 29.9578],  // St. Louis Cathedral
+        [-90.0611, 29.9515],  // Audubon Aquarium (updated)
+        [-90.0635, 29.9576]   // French Market
+    ],
+    [
+        [-90.0715, 29.9583],  // Bourbon Street
+        [-90.0705, 29.9573],  // New Orleans Historic Voodoo Museum (updated)
+        [-90.0720, 29.9614]   // Louis Armstrong Park
     ]
+
 ];
 
 // ✅ Fetch walking routes from OpenRouteService
