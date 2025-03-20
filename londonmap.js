@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const routes = await response.json();
 
     // ✅ Load London boroughs GeoJSON
-    const londonBoroughResponse = await fetch('boroughs.geojson');
+    const londonBoroughResponse = await fetch('london-boroughs_1179.geojson');
     const londonBoroughData = await londonBoroughResponse.json();
 
     // ✅ Load NYC neighborhoods GeoJSON
